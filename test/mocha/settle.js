@@ -57,10 +57,11 @@ describe("allSettled", function () {
             fulfilled = true;
         });
 
-        return Promise.settle(promises)
-        .then(function () {
-            assert.equal(fulfilled, true);
-            assert.equal(rejected, true);
+        return Promise.all(promises.map(function(promise) {
+          return promise.reflect();
+        })).each(function (inspection) {
+          assert.equal(fulfilled, true);
+          assert.equal(rejected, true);
         });
     });
 
